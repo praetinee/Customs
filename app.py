@@ -1,6 +1,6 @@
 import streamlit as st
-# นำเข้าโมดูล Tab 1: code_structure (โครงสร้างรหัส)
-from tabs import code_structure
+# นำเข้าโมดูล Tab 1: code_structure และ Tab 2: incoterms
+from tabs import code_structure, incoterms
 
 # ตั้งค่าหน้าเว็บ
 st.set_page_config(
@@ -62,7 +62,7 @@ st.caption("Customs Knowledge Center")
 # --- สร้าง Tabs หลัก ---
 tab_titles = [
     "1. โครงสร้างรหัสใบขน & HS Code", 
-    "2. (รอข้อมูลใหม่...)",
+    "2. Incoterms 2020",
     "3. (รอข้อมูลใหม่...)"
 ]
 tabs = st.tabs(tab_titles)
@@ -71,9 +71,9 @@ tabs = st.tabs(tab_titles)
 with tabs[0]:
     code_structure.render()
 
-# --- Tab 2 ---
+# --- Tab 2: Incoterms ---
 with tabs[1]:
-    st.info("พื้นที่สำหรับโมดูลถัดไป (เช่น พิธีการศุลกากร, กฎหมาย ฯลฯ)")
+    incoterms.render()
 
 # --- Tab 3 ---
 with tabs[2]:

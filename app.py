@@ -14,24 +14,42 @@ st.markdown(
     """
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap');
+        
+        /* บังคับใช้ฟอนต์ Sarabun ทั้งแอพ */
         html, body, [class*="css"] {
             font-family: 'Sarabun', sans-serif;
         }
+
+        /* ปรับแต่ง Tabs ให้รองรับ Responsive และ Theme (Dark/Light) อัตโนมัติ */
         .stTabs [data-baseweb="tab-list"] {
-            gap: 2px;
+            gap: 4px;
         }
+
         .stTabs [data-baseweb="tab"] {
-            height: 50px;
-            white-space: pre-wrap;
-            background-color: #f0f2f6;
-            border-radius: 4px 4px 0 0;
-            gap: 1px;
-            padding-top: 10px;
-            padding-bottom: 10px;
+            height: auto; /* ให้ความสูงยืดหดตามเนื้อหา (สำหรับมือถือ) */
+            min-height: 50px;
+            white-space: pre-wrap; /* ให้ข้อความขึ้นบรรทัดใหม่ได้ */
+            background-color: var(--secondary-background-color); /* ใช้สีพื้นหลังรองของ Theme */
+            color: var(--text-color); /* ใช้สีตัวอักษรของ Theme */
+            border-radius: 8px 8px 0 0; /* ความโค้งมน */
+            border: 1px solid transparent;
+            padding: 10px 16px;
+            transition: all 0.3s ease;
         }
+
+        /* Effect เมื่อเอาเมาส์ไปชี้ */
+        .stTabs [data-baseweb="tab"]:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            background-color: var(--background-color);
+        }
+
+        /* Tab ที่ถูกเลือก (Active) */
         .stTabs [aria-selected="true"] {
-            background-color: #4f46e5;
-            color: white;
+            background-color: var(--primary-color) !important;
+            color: white !important; /* บังคับสีขาวเพื่อให้ตัดกับสี Primary เสมอ */
+            font-weight: bold;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
     </style>
     """,

@@ -75,7 +75,7 @@ def render():
         st.caption("ขยายได้จำเป็น **+90 วัน**")
         st.markdown("*(รวมสูงสุด 270 วัน)*")
     with col_app3:
-        st.error("3. ฟ้องศาล")
+        st.error("3. ฟ้องศาลภาษีอากรกลาง")
         st.markdown("ภายใน **30 วัน**")
         st.caption("นับแต่รับคำวินิจฉัยอุทธรณ์")
         st.markdown("*(ขั้นตอนสุดท้าย)*")

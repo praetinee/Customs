@@ -5,8 +5,7 @@ def render():
     
     # ส่วนแสดงผลแผนผัง (Visual Map) 
     # ใช้ HTML/Tailwind เพื่อความสวยงาม
-    # ปรับปรุง: ใช้ Container แบบ Card สีขาวเสมอเพื่อให้สีของโค้ด (Pastel) แสดงผลชัดเจนในทุก Theme (Dark/Light)
-    # และเพิ่ม overflow-x-auto เพื่อให้ Slide ดูได้บนมือถือ
+    # ใช้ Container แบบ Card สีขาวเสมอเพื่อให้สีของโค้ด (Pastel) แสดงผลชัดเจนในทุก Theme (Dark/Light)
     html_visual_map = """
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
@@ -91,9 +90,9 @@ def render():
         </div>
     </div>
     """
-    st.components.v1.html(html_visual_map, height=200, scrolling=False) # scrolling handled by CSS inside
+    st.components.v1.html(html_visual_map, height=200, scrolling=False) 
 
-    # --- ส่วนเนื้อหาอธิบาย (Layout 2 คอลัมน์) ---
+    # --- ส่วนเนื้อหาอธิบาย ---
     col1, col2 = st.columns([1, 1])
 
     with col1:
@@ -106,7 +105,6 @@ def render():
             """)
         
         with st.container(border=True):
-            # ใช้ Streamlit Colored Text Syntax (:color[text]) เพื่อรองรับ Theme Dark/Light อัตโนมัติ
             st.markdown("""
             **วันที่ / เดือน / ปี**
             * :green[**หลัก 3-4**] : วันที่
@@ -116,7 +114,6 @@ def render():
 
     with col2:
         st.subheader("⚠️ ประเภทใบขน (หลักที่ 5)")
-        # ใช้ Expander เพื่อประหยัดพื้นที่
         with st.expander("ดูรหัสประเภทใบขนทั้งหมด", expanded=True):
             st.markdown("""
             | รหัส | ความหมาย |
@@ -144,8 +141,6 @@ def render():
 
     # --- ส่วน HS Code ---
     st.header("หลักการจำ: พิกัดศุลกากร (HS Code)")
-    
-    # ใช้ Column ของ Streamlit ทำกล่อง 3 กล่อง
     c1, c2, c3 = st.columns(3)
     
     with c1:

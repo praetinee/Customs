@@ -3,94 +3,179 @@ import streamlit as st
 def render():
     st.header("สรุปโครงสร้างรหัสใบขนสินค้า (14 หลัก)")
     
-    # ส่วนแสดงผลแผนผัง (Visual Map) 
-    # ใช้ HTML/Tailwind เพื่อความสวยงาม
-    # ใช้ Container แบบ Card สีขาวเสมอเพื่อให้สีของโค้ด (Pastel) แสดงผลชัดเจนในทุก Theme (Dark/Light)
-    html_visual_map = """
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    # ใช้ st.markdown แบบ unsafe_allow_html เพื่อฉีด CSS ที่รองรับ Theme ของ Streamlit โดยตรง
+    # ไม่ใช้ iframe แล้ว เพื่อให้สีพื้นหลังและตัวอักษรปรับตาม Dark/Light Mode อัตโนมัติ
+    st.markdown("""
     <style>
-        body { font-family: 'Sarabun', sans-serif; margin: 0; padding: 0; background-color: transparent; }
-        .code-digit {
-            width: 2.5rem; height: 3rem;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; border-radius: 0.375rem; margin: 0 0.1rem;
-            font-family: monospace; font-size: 1.25rem;
-            flex-shrink: 0; /* ป้องกันการหดตัวบนจอเล็ก */
+        /* Container Card ที่ปรับสีตาม Theme */
+        .visual-map-card {
+            background-color: var(--secondary-background-color); /* เปลี่ยนสีตามโหมด */
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(128, 128, 128, 0.2); /* เส้นขอบจางๆ */
+            overflow-x: auto; /* เลื่อนแนวนอนได้ในมือถือ */
         }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { height: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+        
+        /* Layout */
+        .vm-container {
+            min-width: 700px; /* ความกว้างขั้นต่ำเพื่อไม่ให้เลขเบียดกัน */
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: 'Sarabun', sans-serif;
+        }
+        .vm-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 2px;
+        }
+        .vm-digits {
+            display: flex;
+            gap: 4px;
+        }
+        
+        /* กล่องตัวเลข */
+        .vm-digit {
+            width: 2.5rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 1.25rem;
+            border-radius: 6px;
+            
+            /* ใช้สีพื้นหลังหลักของ Theme และสีตัวอักษรหลัก */
+            background-color: var(--background-color); 
+            color: var(--text-color);
+            border: 2px solid rgba(128, 128, 128, 0.3);
+            
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .vm-digit:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+
+        /* เส้นเชื่อมโยง */
+        .vm-line {
+            width: 2px;
+            height: 16px;
+            background-color: rgba(128, 128, 128, 0.4);
+            margin-top: 4px;
+            margin-bottom: 2px;
+        }
+        
+        /* คำอธิบายด้านล่าง */
+        .vm-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        /* --- Color Variants (Theme Safe) --- */
+        /* ใช้สีที่สว่างพอใน Dark mode และเข้มพอใน Light mode */
+        
+        /* วันที่ (Green) */
+        .h-green .vm-digit { border-color: #22c55e; color: #22c55e; }
+        .h-green .vm-line { background-color: #22c55e; }
+        .h-green .vm-label { color: #22c55e; }
+
+        /* ประเภท (Red) - ทำให้เด่นพิเศษ */
+        .h-red .vm-digit { border-color: #ef4444; color: #ef4444; border-width: 2px; background-color: rgba(239, 68, 68, 0.1); }
+        .h-red .vm-line { background-color: #ef4444; }
+        .h-red .vm-label { color: #ef4444; }
+
+        /* ปี (Yellow/Orange) */
+        .h-yellow .vm-digit { border-color: #eab308; color: #eab308; }
+        .h-yellow .vm-line { background-color: #eab308; }
+        .h-yellow .vm-label { color: #eab308; }
+
+        /* เดือน (Purple) */
+        .h-purple .vm-digit { border-color: #a855f7; color: #a855f7; }
+        .h-purple .vm-line { background-color: #a855f7; }
+        .h-purple .vm-label { color: #a855f7; }
+
+        /* Running (Blue) */
+        .h-blue .vm-digit { border-color: #3b82f6; color: #3b82f6; }
+        .h-blue .vm-line { background-color: #3b82f6; }
+        .h-blue .vm-label { color: #3b82f6; }
+
     </style>
-    
-    <!-- Wrapper Card -->
-    <div class="w-full bg-white rounded-xl border border-gray-200 shadow-sm p-4 md:p-6 overflow-x-auto">
-        <!-- Inner Container with min-width to ensure layout integrity -->
-        <div class="min-w-[750px] flex flex-col items-center mx-auto">
-            <div class="flex mb-2">
-                <!-- 1-2 -->
-                <div class="flex flex-col items-center mx-1 md:mx-2">
-                    <div class="flex">
-                        <div class="code-digit bg-gray-100 text-gray-700 border border-gray-200">A</div>
-                        <div class="code-digit bg-gray-100 text-gray-700 border border-gray-200">1</div>
-                    </div>
-                    <div class="h-4 w-px bg-gray-300 mt-2"></div>
-                    <span class="text-xs font-bold text-gray-500 mt-1 whitespace-nowrap">หลัก 1-2</span>
+
+    <div class="visual-map-card">
+        <div class="vm-container">
+            <!-- Group 1-2: Ref -->
+            <div class="vm-group">
+                <div class="vm-digits">
+                    <div class="vm-digit">A</div>
+                    <div class="vm-digit">1</div>
                 </div>
-                <!-- 3-4 -->
-                <div class="flex flex-col items-center mx-1 md:mx-2">
-                    <div class="flex">
-                        <div class="code-digit bg-green-50 text-green-700 border border-green-200">1</div>
-                        <div class="code-digit bg-green-50 text-green-700 border border-green-200">5</div>
-                    </div>
-                    <div class="h-4 w-px bg-green-300 mt-2"></div>
-                    <span class="text-xs font-bold text-green-600 mt-1">วัน</span>
-                </div>
-                <!-- 5 -->
-                <div class="flex flex-col items-center mx-1 md:mx-2">
-                    <div class="flex">
-                        <div class="code-digit bg-red-50 text-red-700 border-2 border-red-400 font-extrabold shadow-sm">0</div>
-                    </div>
-                    <div class="h-4 w-px bg-red-300 mt-2"></div>
-                    <span class="text-xs font-bold text-red-600 mt-1">ประเภท</span>
-                </div>
-                 <!-- 6-7 -->
-                 <div class="flex flex-col items-center mx-1 md:mx-2">
-                    <div class="flex">
-                        <div class="code-digit bg-yellow-50 text-yellow-700 border border-yellow-200">6</div>
-                        <div class="code-digit bg-yellow-50 text-yellow-700 border border-yellow-200">8</div>
-                    </div>
-                    <div class="h-4 w-px bg-yellow-300 mt-2"></div>
-                    <span class="text-xs font-bold text-yellow-600 mt-1">ปี</span>
-                </div>
-                <!-- 8-9 -->
-                <div class="flex flex-col items-center mx-1 md:mx-2">
-                    <div class="flex">
-                        <div class="code-digit bg-purple-50 text-purple-700 border border-purple-200">0</div>
-                        <div class="code-digit bg-purple-50 text-purple-700 border border-purple-200">1</div>
-                    </div>
-                    <div class="h-4 w-px bg-purple-300 mt-2"></div>
-                    <span class="text-xs font-bold text-purple-600 mt-1">เดือน</span>
-                </div>
-                <!-- 10-14 -->
-                <div class="flex flex-col items-center mx-1 md:mx-2">
-                    <div class="flex">
-                        <div class="code-digit bg-blue-50 text-blue-700 border border-blue-200">0</div>
-                        <div class="code-digit bg-blue-50 text-blue-700 border border-blue-200">0</div>
-                        <div class="code-digit bg-blue-50 text-blue-700 border border-blue-200">0</div>
-                        <div class="code-digit bg-blue-50 text-blue-700 border border-blue-200">0</div>
-                        <div class="code-digit bg-blue-50 text-blue-700 border border-blue-200">1</div>
-                    </div>
-                    <div class="h-4 w-px bg-blue-300 mt-2"></div>
-                    <span class="text-xs font-bold text-blue-500 mt-1 whitespace-nowrap">เลข Running</span>
-                </div>
+                <div class="vm-line"></div>
+                <div class="vm-label">หลัก 1-2</div>
             </div>
+
+            <!-- Group 3-4: Day (Green) -->
+            <div class="vm-group h-green">
+                <div class="vm-digits">
+                    <div class="vm-digit">1</div>
+                    <div class="vm-digit">5</div>
+                </div>
+                <div class="vm-line"></div>
+                <div class="vm-label">วันที่</div>
+            </div>
+
+            <!-- Group 5: Type (Red) -->
+            <div class="vm-group h-red">
+                <div class="vm-digits">
+                    <div class="vm-digit">0</div>
+                </div>
+                <div class="vm-line"></div>
+                <div class="vm-label">ประเภท</div>
+            </div>
+            
+            <!-- Group 6-7: Year (Yellow) -->
+            <div class="vm-group h-yellow">
+                <div class="vm-digits">
+                    <div class="vm-digit">6</div>
+                    <div class="vm-digit">8</div>
+                </div>
+                <div class="vm-line"></div>
+                <div class="vm-label">ปี (พ.ศ.)</div>
+            </div>
+
+            <!-- Group 8-9: Month (Purple) -->
+            <div class="vm-group h-purple">
+                <div class="vm-digits">
+                    <div class="vm-digit">0</div>
+                    <div class="vm-digit">1</div>
+                </div>
+                <div class="vm-line"></div>
+                <div class="vm-label">เดือน</div>
+            </div>
+
+            <!-- Group 10-14: Running (Blue) -->
+            <div class="vm-group h-blue">
+                <div class="vm-digits">
+                    <div class="vm-digit">0</div>
+                    <div class="vm-digit">0</div>
+                    <div class="vm-digit">0</div>
+                    <div class="vm-digit">0</div>
+                    <div class="vm-digit">1</div>
+                </div>
+                <div class="vm-line"></div>
+                <div class="vm-label">เลข Running</div>
+            </div>
+
         </div>
     </div>
-    """
-    st.components.v1.html(html_visual_map, height=200, scrolling=False) 
+    """, unsafe_allow_html=True)
 
     # --- ส่วนเนื้อหาอธิบาย ---
     col1, col2 = st.columns([1, 1])

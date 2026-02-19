@@ -4,81 +4,94 @@ def render():
     st.header("สรุปโครงสร้างรหัสใบขนสินค้า (14 หลัก)")
     
     # ส่วนแสดงผลแผนผัง (Visual Map) 
-    # ใช้ HTML/Tailwind เพื่อความสวยงามที่ Streamlit ปกติทำได้ยาก
+    # ใช้ HTML/Tailwind เพื่อความสวยงาม
+    # ปรับปรุง: ใช้ Container แบบ Card สีขาวเสมอเพื่อให้สีของโค้ด (Pastel) แสดงผลชัดเจนในทุก Theme (Dark/Light)
+    # และเพิ่ม overflow-x-auto เพื่อให้ Slide ดูได้บนมือถือ
     html_visual_map = """
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        body { font-family: 'Sarabun', sans-serif; margin: 0; padding: 0; background-color: transparent; }
         .code-digit {
             width: 2.5rem; height: 3rem;
             display: flex; align-items: center; justify-content: center;
             font-weight: bold; border-radius: 0.375rem; margin: 0 0.1rem;
             font-family: monospace; font-size: 1.25rem;
+            flex-shrink: 0; /* ป้องกันการหดตัวบนจอเล็ก */
         }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
     </style>
-    <div style="background-color: white; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb; overflow-x: auto; margin-bottom: 20px;">
-        <div class="min-w-[800px] flex flex-col items-center">
-            <div class="flex mb-4">
+    
+    <!-- Wrapper Card -->
+    <div class="w-full bg-white rounded-xl border border-gray-200 shadow-sm p-4 md:p-6 overflow-x-auto">
+        <!-- Inner Container with min-width to ensure layout integrity -->
+        <div class="min-w-[750px] flex flex-col items-center mx-auto">
+            <div class="flex mb-2">
                 <!-- 1-2 -->
-                <div class="flex flex-col items-center mx-1">
+                <div class="flex flex-col items-center mx-1 md:mx-2">
                     <div class="flex">
-                        <div class="code-digit bg-gray-200 text-gray-700">A</div>
-                        <div class="code-digit bg-gray-200 text-gray-700">1</div>
+                        <div class="code-digit bg-gray-100 text-gray-700 border border-gray-200">A</div>
+                        <div class="code-digit bg-gray-100 text-gray-700 border border-gray-200">1</div>
                     </div>
-                    <div class="h-4 w-px bg-gray-300 mt-1"></div>
-                    <span class="text-xs font-bold text-gray-500 mt-1">หลัก 1-2</span>
+                    <div class="h-4 w-px bg-gray-300 mt-2"></div>
+                    <span class="text-xs font-bold text-gray-500 mt-1 whitespace-nowrap">หลัก 1-2</span>
                 </div>
                 <!-- 3-4 -->
-                <div class="flex flex-col items-center mx-1">
+                <div class="flex flex-col items-center mx-1 md:mx-2">
                     <div class="flex">
-                        <div class="code-digit bg-green-100 text-green-700">1</div>
-                        <div class="code-digit bg-green-100 text-green-700">5</div>
+                        <div class="code-digit bg-green-50 text-green-700 border border-green-200">1</div>
+                        <div class="code-digit bg-green-50 text-green-700 border border-green-200">5</div>
                     </div>
-                    <div class="h-4 w-px bg-green-300 mt-1"></div>
+                    <div class="h-4 w-px bg-green-300 mt-2"></div>
                     <span class="text-xs font-bold text-green-600 mt-1">วัน</span>
                 </div>
                 <!-- 5 -->
-                <div class="flex flex-col items-center mx-1">
+                <div class="flex flex-col items-center mx-1 md:mx-2">
                     <div class="flex">
-                        <div class="code-digit bg-red-100 text-red-700 ring-2 ring-red-400">0</div>
+                        <div class="code-digit bg-red-50 text-red-700 border-2 border-red-400 font-extrabold shadow-sm">0</div>
                     </div>
-                    <div class="h-4 w-px bg-red-300 mt-1"></div>
+                    <div class="h-4 w-px bg-red-300 mt-2"></div>
                     <span class="text-xs font-bold text-red-600 mt-1">ประเภท</span>
                 </div>
                  <!-- 6-7 -->
-                 <div class="flex flex-col items-center mx-1">
+                 <div class="flex flex-col items-center mx-1 md:mx-2">
                     <div class="flex">
-                        <div class="code-digit bg-yellow-100 text-yellow-700">6</div>
-                        <div class="code-digit bg-yellow-100 text-yellow-700">8</div>
+                        <div class="code-digit bg-yellow-50 text-yellow-700 border border-yellow-200">6</div>
+                        <div class="code-digit bg-yellow-50 text-yellow-700 border border-yellow-200">8</div>
                     </div>
-                    <div class="h-4 w-px bg-yellow-300 mt-1"></div>
+                    <div class="h-4 w-px bg-yellow-300 mt-2"></div>
                     <span class="text-xs font-bold text-yellow-600 mt-1">ปี</span>
                 </div>
                 <!-- 8-9 -->
-                <div class="flex flex-col items-center mx-1">
+                <div class="flex flex-col items-center mx-1 md:mx-2">
                     <div class="flex">
-                        <div class="code-digit bg-purple-100 text-purple-700">0</div>
-                        <div class="code-digit bg-purple-100 text-purple-700">1</div>
+                        <div class="code-digit bg-purple-50 text-purple-700 border border-purple-200">0</div>
+                        <div class="code-digit bg-purple-50 text-purple-700 border border-purple-200">1</div>
                     </div>
-                    <div class="h-4 w-px bg-purple-300 mt-1"></div>
+                    <div class="h-4 w-px bg-purple-300 mt-2"></div>
                     <span class="text-xs font-bold text-purple-600 mt-1">เดือน</span>
                 </div>
                 <!-- 10-14 -->
-                <div class="flex flex-col items-center mx-1">
+                <div class="flex flex-col items-center mx-1 md:mx-2">
                     <div class="flex">
-                        <div class="code-digit bg-blue-50 text-blue-700">0</div>
-                        <div class="code-digit bg-blue-50 text-blue-700">0</div>
-                        <div class="code-digit bg-blue-50 text-blue-700">0</div>
-                        <div class="code-digit bg-blue-50 text-blue-700">0</div>
-                        <div class="code-digit bg-blue-50 text-blue-700">1</div>
+                        <div class="code-digit bg-blue-50 text-blue-700 border border-blue-200">0</div>
+                        <div class="code-digit bg-blue-50 text-blue-700 border border-blue-200">0</div>
+                        <div class="code-digit bg-blue-50 text-blue-700 border border-blue-200">0</div>
+                        <div class="code-digit bg-blue-50 text-blue-700 border border-blue-200">0</div>
+                        <div class="code-digit bg-blue-50 text-blue-700 border border-blue-200">1</div>
                     </div>
-                    <div class="h-4 w-px bg-blue-300 mt-1"></div>
-                    <span class="text-xs font-bold text-blue-500 mt-1">เลข Running</span>
+                    <div class="h-4 w-px bg-blue-300 mt-2"></div>
+                    <span class="text-xs font-bold text-blue-500 mt-1 whitespace-nowrap">เลข Running</span>
                 </div>
             </div>
         </div>
     </div>
     """
-    st.components.v1.html(html_visual_map, height=180, scrolling=True)
+    st.components.v1.html(html_visual_map, height=200, scrolling=False) # scrolling handled by CSS inside
 
     # --- ส่วนเนื้อหาอธิบาย (Layout 2 คอลัมน์) ---
     col1, col2 = st.columns([1, 1])
@@ -93,12 +106,13 @@ def render():
             """)
         
         with st.container(border=True):
+            # ใช้ Streamlit Colored Text Syntax (:color[text]) เพื่อรองรับ Theme Dark/Light อัตโนมัติ
             st.markdown("""
             **วันที่ / เดือน / ปี**
-            * <span style='color:green'><b>หลัก 3-4</b></span> : วันที่
-            * <span style='color:#ca8a04'><b>หลัก 6-7</b></span> : ปี (พ.ศ.)
-            * <span style='color:purple'><b>หลัก 8-9</b></span> : เดือน
-            """, unsafe_allow_html=True)
+            * :green[**หลัก 3-4**] : วันที่
+            * :orange[**หลัก 6-7**] : ปี (พ.ศ.)
+            * :violet[**หลัก 8-9**] : เดือน
+            """)
 
     with col2:
         st.subheader("⚠️ ประเภทใบขน (หลักที่ 5)")

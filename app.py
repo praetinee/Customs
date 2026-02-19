@@ -1,6 +1,6 @@
 import streamlit as st
-# นำเข้าโมดูล Tab 1, 2 และ 3 (Time Limits)
-from tabs import code_structure, incoterms, time_limits
+# นำเข้าโมดูล Tab 1, 2, 3 และ 4 (Warehouses)
+from tabs import code_structure, incoterms, time_limits, warehouses
 
 # ตั้งค่าหน้าเว็บ
 st.set_page_config(
@@ -63,7 +63,8 @@ st.caption("Customs Knowledge Center")
 tab_titles = [
     "1. โครงสร้างรหัสใบขน & HS Code", 
     "2. Incoterms 2020",
-    "3. ระยะเวลา (Time Limits)"
+    "3. ระยะเวลา (Time Limits)",
+    "4. คลังสินค้า & เขตปลอดอากร"
 ]
 tabs = st.tabs(tab_titles)
 
@@ -78,3 +79,7 @@ with tabs[1]:
 # --- Tab 3: Time Limits ---
 with tabs[2]:
     time_limits.render()
+
+# --- Tab 4: Warehouses ---
+with tabs[3]:
+    warehouses.render()

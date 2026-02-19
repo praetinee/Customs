@@ -15,9 +15,9 @@ st.markdown(
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap');
         
-        /* บังคับใช้ฟอนต์ Sarabun ทั้งแอพ */
-        html, body, [class*="css"] {
-            font-family: 'Sarabun', sans-serif;
+        /* บังคับใช้ฟอนต์ Sarabun ทั้งแอพ และทุก Element อย่างเคร่งครัด */
+        html, body, [class*="css"], div, h1, h2, h3, h4, h5, h6, p, span, button, input, select, textarea, label {
+            font-family: 'Sarabun', sans-serif !important;
         }
 
         /* ปรับแต่ง Tabs ให้รองรับ Responsive และ Theme (Dark/Light) อัตโนมัติ */
@@ -35,6 +35,7 @@ st.markdown(
             border: 1px solid transparent;
             padding: 10px 16px;
             transition: all 0.3s ease;
+            font-family: 'Sarabun', sans-serif !important; /* ย้ำฟอนต์ใน Tab */
         }
 
         /* Effect เมื่อเอาเมาส์ไปชี้ */

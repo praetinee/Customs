@@ -16,40 +16,53 @@ st.markdown(
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap');
         
         /* บังคับใช้ฟอนต์ Sarabun ทั้งแอพ และทุก Element อย่างเคร่งครัด */
-        html, body, [class*="css"], div, h1, h2, h3, h4, h5, h6, p, span, button, input, select, textarea, label {
+        html, body, [class*="css"], [class*="st-"], div, h1, h2, h3, h4, h5, h6, p, span, button, input, select, textarea, label, a, li, ul, table, th, td {
             font-family: 'Sarabun', sans-serif !important;
         }
 
-        /* ปรับแต่ง Tabs ให้รองรับ Responsive และ Theme (Dark/Light) อัตโนมัติ */
+        /* --- ปรับแต่ง Tabs ให้รองรับ Responsive --- */
+        /* จัดการกล่องครอบ Tab ให้เลื่อนซ้ายขวาได้บนหน้าจอขนาดเล็ก โดยไม่เสียทรง */
         .stTabs [data-baseweb="tab-list"] {
-            gap: 4px;
+            gap: 6px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* เลื่อนลื่นไหลบนมือถือ iOS */
+            scrollbar-width: none; /* ซ่อน Scrollbar สำหรับ Firefox */
+            -ms-overflow-style: none; /* ซ่อน Scrollbar สำหรับ IE/Edge */
+        }
+        
+        /* ซ่อน Scrollbar สำหรับ Chrome/Safari/Opera */
+        .stTabs [data-baseweb="tab-list"]::-webkit-scrollbar {
+            display: none; 
         }
 
+        /* ปรับตัว Tab แต่ละอันให้ยืดหยุ่น */
         .stTabs [data-baseweb="tab"] {
-            height: auto; /* ให้ความสูงยืดหดตามเนื้อหา (สำหรับมือถือ) */
+            height: auto; 
             min-height: 50px;
-            white-space: pre-wrap; /* ให้ข้อความขึ้นบรรทัดใหม่ได้ */
-            background-color: var(--secondary-background-color); /* ใช้สีพื้นหลังรองของ Theme */
-            color: var(--text-color); /* ใช้สีตัวอักษรของ Theme */
-            border-radius: 8px 8px 0 0; /* ความโค้งมน */
+            white-space: normal; /* ให้ข้อความยาวๆ ขึ้นบรรทัดใหม่ได้ถ้าหน้าจอเล็ก */
+            word-wrap: break-word;
+            text-align: center;
+            background-color: var(--secondary-background-color); /* ดึงสีพื้นหลังของ Theme (Dark/Light) มาใช้ */
+            color: var(--text-color); /* ดึงสีข้อความของ Theme มาใช้ */
+            border-radius: 8px 8px 0 0; /* ความโค้งมนมุมบน */
             border: 1px solid transparent;
-            padding: 10px 16px;
-            transition: all 0.3s ease;
-            font-family: 'Sarabun', sans-serif !important; /* ย้ำฟอนต์ใน Tab */
+            padding: 10px 14px;
+            transition: all 0.3s ease; /* เพิ่มความนุ่มนวลเวลาเปลี่ยนสถานะ */
         }
 
         /* Effect เมื่อเอาเมาส์ไปชี้ */
         .stTabs [data-baseweb="tab"]:hover {
             color: var(--primary-color);
             border-color: var(--primary-color);
-            background-color: var(--background-color);
+            background-color: transparent; /* โปร่งใสเพื่อให้กลืนกับพื้นหลังของ Theme */
         }
 
         /* Tab ที่ถูกเลือก (Active) */
         .stTabs [aria-selected="true"] {
             background-color: var(--primary-color) !important;
-            color: white !important; /* บังคับสีขาวเพื่อให้ตัดกับสี Primary เสมอ */
-            font-weight: bold;
+            color: #ffffff !important; /* บังคับใช้สีขาวเพื่อให้ตัดกับสีหลักของระบบเสมอ */
+            font-weight: 700;
+            border-color: var(--primary-color) !important;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
     </style>

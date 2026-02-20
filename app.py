@@ -13,11 +13,21 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700&display=swap');
+        /* นำเข้าฟอนต์ Sarabun */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap');
         
-        /* ใช้ฟอนต์ Prompt เป็นหลัก และตั้งค่าฟอนต์สำรองสำหรับสัญลักษณ์ (Icons/Emoji) ของแต่ละระบบปฏิบัติการ */
-        html, body, [class*="css"], [class*="st-"], div, h1, h2, h3, h4, h5, h6, p, span, button, input, select, textarea, label, a, li, ul, table, th, td {
-            font-family: 'Prompt', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+        /* กำหนดฟอนต์ Sarabun เป็นหลักแบบปลอดภัย (Cascading) 
+           ให้ครอบคลุมส่วนใหญ่ของแอป แต่ไม่บังคับทับ (ไม่มี !important) เพื่อรักษาไอคอนของ Streamlit ไว้
+        */
+        .stApp {
+            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        /* บังคับใช้ Sarabun อย่างเด็ดขาดเฉพาะกับ "ข้อความ" (Text Elements) 
+           เพื่อป้องกันไม่ให้ไปกระทบ tag ประเภท <span> หรือ <div> ที่ Streamlit ใช้สร้างสัญลักษณ์ย่อขยาย
+        */
+        p, h1, h2, h3, h4, h5, h6, li, a, th, td, label {
+            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji" !important;
         }
 
         /* --- ปรับแต่ง Tabs ให้รองรับ Responsive --- */
@@ -48,6 +58,7 @@ st.markdown(
             border: 1px solid transparent;
             padding: 10px 14px;
             transition: all 0.3s ease; /* เพิ่มความนุ่มนวลเวลาเปลี่ยนสถานะ */
+            font-family: 'Sarabun', sans-serif !important; /* บังคับใช้ฟอนต์ Sarabun กับชื่อ Tab */
         }
 
         /* Effect เมื่อเอาเมาส์ไปชี้ */

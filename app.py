@@ -1,6 +1,6 @@
 import streamlit as st
-# นำเข้าโมดูล Tab 1-8
-from tabs import code_structure, incoterms, time_limits, warehouses, other_time_limits, core_values, brokerage, jda
+# นำเข้าโมดูล Tab 1-9 (เพิ่ม trade_knowledge)
+from tabs import code_structure, incoterms, time_limits, warehouses, other_time_limits, core_values, brokerage, jda, trade_knowledge
 
 # ตั้งค่าหน้าเว็บ
 st.set_page_config(
@@ -60,7 +60,7 @@ st.markdown(
 st.title("📄 ระบบคลังความรู้ศุลกากร")
 st.caption("Customs Knowledge Center")
 
-# --- สร้าง Tabs หลัก ---
+# --- สร้าง Tabs หลัก (เพิ่ม Tab 9 เข้าไปในลิสต์) ---
 tab_titles = [
     "1. โครงสร้างรหัสใบขน & HS Code", 
     "2. Incoterms 2020",
@@ -69,7 +69,8 @@ tab_titles = [
     "5. อายุความ & ประเมินอากร",
     "6. ค่านิยมองค์กร (DRIVE)",
     "7. ตัวแทนออกของ (Broker & AEO)",
-    "8. พื้นที่พัฒนาร่วม (JDA)"
+    "8. พื้นที่พัฒนาร่วม (JDA)",
+    "9. ความรู้การค้าระหว่างประเทศ"
 ]
 tabs = st.tabs(tab_titles)
 
@@ -104,3 +105,7 @@ with tabs[6]:
 # --- Tab 8: JDA ---
 with tabs[7]:
     jda.render()
+
+# --- Tab 9: Trade Knowledge ---
+with tabs[8]:
+    trade_knowledge.render()

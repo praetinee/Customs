@@ -13,11 +13,11 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700&display=swap');
         
-        /* บังคับใช้ฟอนต์ Sarabun ทั้งแอพ และทุก Element อย่างเคร่งครัด */
+        /* ใช้ฟอนต์ Prompt เป็นหลัก และตั้งค่าฟอนต์สำรองสำหรับสัญลักษณ์ (Icons/Emoji) ของแต่ละระบบปฏิบัติการ */
         html, body, [class*="css"], [class*="st-"], div, h1, h2, h3, h4, h5, h6, p, span, button, input, select, textarea, label, a, li, ul, table, th, td {
-            font-family: 'Sarabun', sans-serif !important;
+            font-family: 'Prompt', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
         }
 
         /* --- ปรับแต่ง Tabs ให้รองรับ Responsive --- */
